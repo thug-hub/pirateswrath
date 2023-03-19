@@ -40,6 +40,7 @@ Section:NewToggle("Auto Farm", "ToggleInfo", function(state)
     
     while getgenv().autofarm do
         wait(2)
+        
         for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
             for h, j in pairs(selectedmobs) do
                 if v.ClassName == "Model" and v:FindFirstChild("HumanoidRootPart") and string.find(v.Name, j) then
@@ -60,11 +61,27 @@ Section:NewToggle("Auto Attack", "ToggleInfo", function(state)
     end
     
     while getgenv().autoattack do
-        wait(0.5)
+        wait(0.2)
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
             if v.ClassName == "Tool" then
                 v:Activate()
             end
+        end
+    end
+end)
+
+getgenv().autohaki = nil
+Section:NewToggle("Auto Haki", "ToggleInfo", function(state)
+    if state then
+        getgenv().autohaki = true
+    else
+        getgenv().autohaki = false
+    end
+    
+    while getgenv().autohaki do
+        wait(0.2)
+        if not game.Players.LocalPlayer.Character:FindFirstChild("BusoHands") then
+            game:GetService("ReplicatedStorage"):WaitForChild("Hakis"):WaitForChild("BusoHaki"):FireServer()
         end
     end
 end)
@@ -88,22 +105,4 @@ Section2:NewButton("TP to Safe Place", "ButtonInfo", function()
     baseplatee.Size = Vector3.new(1000, 1, 1000)
     baseplatee.CFrame = game.workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame + Vector3.new(0,-2, 0)
     baseplatee.Anchored = true
-end)
-
-getgenv().dftp = true
-Section2:NewToggle("Auto Grab Fruit", "ToggleInfo", function(state)
-    if state then
-        getgenv().dftp = true
-    else
-        getgenv().dftp = true
-    end
-    
-    while getgenv().dftp do
-        wait(1)
-        for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-            if v.ClassName == "Tool" and string.find(v.Name, "no Mi") then
-               v.CFrame = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
-           end
-        end
-    end  
 end)
